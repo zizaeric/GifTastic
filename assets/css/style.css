@@ -36,14 +36,16 @@ label {
 .jumbotron .h1, .jumbotron h1 {
     text-align: center;
 }
-#copyright{
-	font-size: 14px;
-} */
-div#footer {
+*/
+.footer {
 	clear: both;
 	margin-top: 40px;
-	position: center;
-	bottom: 0;
+	position: fixed;
 	left: 0;
-	text-align: center;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    background-color: rgba(255, 166, 0, 0.404);
 }
+
