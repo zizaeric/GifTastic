@@ -1,85 +1,125 @@
 $(document).ready(function () {
-    // An array of actions, new actions will be pushed into this array;
-    var actions = ["Dancing", "Jogging", "Falling", "Reading", "Pushing", "Swimming", "Eating", "Skipping", "Crying", "Winking", "Beyoncing", "Strolling", "Hopping"];
-    // Creating Functions & Methods
-    // Function that displays all gif buttons
-    function displayGifButtons() {
-        $("#gifView-btns").empty(); // erasing anything in this div id so that it doesnt duplicate the results
-        for (var i = 0; i < actions.length; i++) {
+// Some Global Variables
+//===============================================================================
+    // An array of emotions, new emotions will be pushed into this array;
+    var emotions = ["Anxious", "Amused", "Happy", "Angry", "Embarrassed", "Excited", "Rage", "Frustrated", "Surprised", "Joy", "Bored", "Overwhelmed", "Delighted"];
+   
+// Functions & Methods
+//===============================================================================
+    // Function to display gif buttons
+    function renderButtons() {
+        $("#gifViewBtns").empty(); // preventing duplication of buttons
+        for (var i = 0; i < emotions.length; i++) {
+
             var gifButton = $("<button>");
-            gifButton.addClass("action");
+
+            gifButton.addClass("emotion");
+
             gifButton.addClass("btn btn-primary")
-            gifButton.attr("data-name", actions[i]);
-            gifButton.text(actions[i]);
-            $("#gifView-btns").append(gifButton);
+
+            gifButton.attr("data-name", emotions[i]);
+
+            gifButton.text(emotions[i]);
+
+            $("#gifViewBtns").append(gifButton);
         }
     }
-    // Function to add a new action button
-    function addNewButton() {
-        $("#gifAdd").on("click", function () {
-            var action = $("#gif-input").val().trim();
-            if (action == "") {
-                return false; // added so user cannot add a blank button
-            }
-            actions.push(action);
 
-            displayGifButtons();
+    // Function to add a new emotion button
+    function addNewButton() {
+
+        $("#addGif").on("click", function (event) {
+
+            // preventDefault method to prevent form from trying to submitting itself
+            event.preventDefault();
+
+            var emotion = $("#gifInput").val().trim();
+            
+            // Prevent blank submissions
+            if (emotion == "") {
+                return false; 
+            }
+
+            // Push submitted emotion into the emotions array
+            emotions.push(emotion);
+
+            // Render all the buttons to display new emotion button
+            renderButtons();
             return false;
         });
     }
-    // Function to remove last action button
-    // Doesnt work properly yet removes all of the added buttons
-    // rather than just the last
-    // // function removeLastButton(){
-    // //     $("removeGif").on("click", function(){
-    // //     actions.pop(action);
-    // //     displayGifButtons();
-    // //     return false;
-    // //     });
 
-    // Function that displays all of the gifs
+    // Function to display gifs
     function displayGifs() {
-        var action = $(this).attr("data-name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + action + "&apikey=" + apiKey + "&limit=10";
-        console.log(queryURL); // displays the constructed url
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        })
-            .done(function (response) {
-                console.log(response); // console test to make sure something returns
-                $("#gifsView").empty(); // erasing anything in this div id so that it doesnt keep any from the previous click
-                var results = response.data; //shows results of gifs
-                if (results == "") {
-                    alert("There isn't a gif for this selected button");
-                }
-                for (var i = 0; i < results.length; i++) {
 
-                    var gifDiv = $("<div>"); //div for the gifs to go inside
-                    gifDiv.addClass("gifDiv");
-                    // pulling rating of gif
-                    var gifRating = $("<p>").text("Rating: " + results[i].rating);
-                    gifDiv.append(gifRating);
-                    // pulling gif
-                    var gifImage = $("<img>");
-                    gifImage.attr("src", results[i].images.fixed_height_small_still.url); // still image stored into src of image
-                    gifImage.attr("data-still", results[i].images.fixed_height_small_still.url); // still image
-                    gifImage.attr("data-animate", results[i].images.fixed_height_small.url); // animated image
-                    gifImage.attr("data-state", "still"); // set the image state
-                    gifImage.addClass("image");
-                    gifDiv.append(gifImage);
-                    // pulling still image of gif
-                    // adding div of gifs to gifsView div
-                    $("#gifsView").prepend(gifDiv);
-                }
-            });
-    }
-    // Calling Functions & Methods
-    displayGifButtons(); // displays list of actions already created
+        var emotion = $(this).attr("data-name");
+
+        var apiKey = "Y08vgdF8HEooiBjRD7gnRLgQgaoL87uP";
+
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + emotion + "&apiKey=" + apiKey + "&limit=10";
+
+        // AJAX call to the API
+        $.ajax({
+
+            url: queryURL,
+
+            method: "GET"
+
+        }).then(function(response) {
+
+                    // Erase div contents from previous click
+                    $("#gifsHome").empty(); 
+
+                    // Alert user if no gifs are available for chosen word
+                    if (response.data == "") {
+                        alert("Oops! No gifs for this button! Sorry!");
+                    }
+
+                    for (var i = 0; i < response.data.length; i++) {
+
+                        // Create a div to hold an individual GIF
+                        var gifDiv = $("<div class='gifDiv'>");
+
+                        // Variable to store rating data and create a p element for it
+                        var gifRating = $("<p>").text("Rating: " + response.data[i].rating);
+
+                        // Append the rating p element to the gifDiv
+                        gifDiv.append(gifRating);
+
+                        // Create img element and store it in gifImage variable 
+                        var gifImage = $("<img>");
+                        
+                        // Access the response object and add attributes to the img element
+                        gifImage.attr("src", response.data[i].images.fixed_height_still.url); // set still image url as src
+                         
+                        gifImage.attr("data-still", response.data[i].images.fixed_height_still.url); // still image
+
+                        gifImage.attr("data-animate", response.data[i].images.fixed_height.url); // animated image
+
+                        gifImage.attr("data-state", "still"); // set the image state
+
+                        // add image class to img element
+                        gifImage.addClass("image");
+
+                        // append still image to gifDiv
+                        gifDiv.append(gifImage);
+
+                        // add div of GIFs to gifsHome div
+                        $("#gifsHome").prepend(gifDiv);
+                    };
+                });
+        }
+// Functions & Methods Calls
+//==============================================================================
+
+// Display buttons of emotions
+renderButtons(); 
+
+// Add new button for submitted emotion
 addNewButton();
-removeLastButton();
+
 // Document Event Listeners
-$(document).on("click", ".action", displayGifs);
+$(".emotion").on("click", displayGifs);
 $(document).on("click", ".image", function () {
     var state = $(this).attr('data-state');
     if (state == 'still') {

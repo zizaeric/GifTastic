@@ -1,85 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <title>GifTastic</title>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>GifTastic</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <!-- linking to jquery, bootstrap and css -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 </head>
-<body> 
 
-    <!-- Jumbotron -->
-    <div class="Jumbotron">
-        <div class="container">
-            <h1>Legendary Soccer Players</h1>
-        </div>
-    </div>
-
-    <!-- Buttons -->
-    <div class="container" id="gifView-btns">
-
-    </div>
-
-    <!-- Gifs container -->
-
+<body>
     <div class="container">
-        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-            <!-- GIFs -->
-            <div id="gifsView">
+        <!-- Buttons go here -->
+        <div class="container" id="gifViewBtns">
+
+        </div>
+
+        <!-- Gifs go in this row -->
+
+        <div class="row">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+
+                <!-- GIFs -->
+                <div id="gifsHome">
+
+                </div>
 
             </div>
+
+            <!-- Submission Form -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+                <form id="gifSubmission" role="form">
+
+                    <div class="form-group">
+                        <label for="gif-input">Add an Emotion</label>
+                        <input type="text" id="gifInput">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input class="btn btn-primary" type="submit" value="Submit" id="addGif">
+                        </div>
+                        <div class="col-lg-6">
+                            <input class="btn btn-primary" type="submit" value="Remove" id="removeGif">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            
         </div>
-        
-        <!-- Action Submission Form -->
-        <div class="cold-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <form role="form" id="gif-submission">
-                <h2><legend>Add a Player</legend></h2>
-                <div class="form-group">
-                    <label for="gif-input">Add a GIF topic</label>
-                    <input type="text" id="gif-input">
-                </div>
-                <input class="btn btn-primary" type="submit" value="Submit GIF" id="gifAdd">
-            </form>
-        </div>
-    </div>
-    
 
-
-    <!-- <button data-animal="taekwondo">Meow</button>
-
-    <div id = "gifsHome"></div>
-    <script type="text/javascript">
-        $("button").on("click", function () {
-            var x = $(this).data("animal");
-            var apiKey = "Y08vgdF8HEooiBjRD7gnRLgQgaoL87uP"
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + x + "&apikey=" + apiKey + "&limit=10";
-
-            $.ajax({
-                url : queryURL,
-                method : "GET",
-            }).done(function(response) {
-                for(var i = 0; i < response.data.length; i++){
-                    var animalDiv = $("<div>");
-                    var p = $("<p>").text("Rating: " + response.data[i].rating);
-                    var animalImage = $("<img>");
-                    animalImage.attr("src", response.data[i].images.fixed_height.url);
-                    animalDiv.append(p);
-                    animalDiv.append(animalImage);
-                    $("#gifsHome").append(animalDiv);
-                }
-
-            })
-        });
-    </script> -->
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/javascript/logic.js"></script>
+        <!-- jQuery JS -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="assets/javascript/logic.js"></script>
 </body>
+
 </html>
